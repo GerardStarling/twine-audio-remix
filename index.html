@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simple example of audio with Howler</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"
+      integrity="sha512-L6Z/YtIPQ7eU3BProP34WGU5yIRk7tNHk7vaC2dB1Vy1atz6wl9mCkTPPZ2Rn1qPr+vY2mZ9odZLdGYuaBk7dQ=="
+      crossorigin="anonymous"
+    ></script>
+    <meta name="description" content="A simple exercise template." />
+    <!-- styles -->
+    <style>
+      .highlight {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Horizon</h1>
+    <div>
+      <div id="poem-line-0">Snoring</div>
+      <div id="poem-line-1">Raining</div>
+      <div id="poem-line-2">wakings</div>
+    </div>
+    <button id="play-sounds">Play sounds</button>
+    <!-- script -->
+    <script>
+      const currentPoem = [
+        "https://cdn.glitch.global/a820f001-c816-4921-811a-9c90d457691e/coughing.mp3?v=1651467014672",
+        "https://cdn.glitch.global/a820f001-c816-4921-811a-9c90d457691e/rain.mp3?v=1651467050555",
+        "https://cdn.glitch.global/a820f001-c816-4921-811a-9c90d457691e/alarm.mp3?v=1651467081633"
+      ];
+      const button = document.getElementById("play-sounds");
+      function readPoem(lineIndex) {
+        let sound = new Howl({
+          src: [currentPoem[lineIndex]],
+          preload: true,
+          onend: function() {
+            if (lineIndex < currentPoem.length - 1) {
+              readPoem(lineIndex + 1);
+            }
+            document
+              .querySelector("#poem-line-" + lineIndex)
+              .classList.toggle("highlight");
+          }
+        });
+        document
+          .querySelector("#poem-line-" + lineIndex)
+          .classList.toggle("highlight");
+        sound.play();
+      }
+      button.addEventListener("click", function() {
+        readPoem(0);
+      });
+    </script>
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js" defer></script>
+  </body>
+</html>
